@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { SITE } from "../data/site";
+
+const title = "Privacy Policy | Hart Dental";
+const description = "Website privacy information for Hart Dental, including appointment requests, data use, providers and contact details.";
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/privacy-policy">
+  <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Privacy Policy" }]} />
+  <section class="page-hero paper-section">
+    <div class="shell">
+      <p class="eyebrow">Website information</p>
+      <h1>Privacy policy.</h1>
+    </div>
+  </section>
+
+  <section class="section-pad white-section">
+    <div class="shell prose">
+      <p><strong>Preview draft:</strong> This policy describes the replacement website’s intended data flow. Hart Dental must obtain legal/privacy review and confirm all providers before a production launch.</p>
+
+      <h2>Information you choose to send</h2>
+      <p>The appointment-request form asks for your name, contact details, preferred contact method, a broad reason for the request and an optional scheduling note. Please do not include medical details, diagnoses, health-card numbers, payment-card details or urgent information.</p>
+      <p>An online request is not a confirmed appointment and is not monitored as an emergency service. Call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> for urgent dental concerns.</p>
+
+      <h2>How information is intended to be used</h2>
+      <p>Hart Dental would use the information to respond to your request, contact you about scheduling and maintain appropriate administrative records. Production retention, access and deletion procedures must be confirmed by Hart Dental before the form is enabled for delivery.</p>
+
+      <h2>Website providers</h2>
+      <p>The preview is hosted using Cloudflare Pages. The form is designed to use Cloudflare Pages Functions and Cloudflare Turnstile for abuse prevention. If enabled for production, appointment-request delivery is designed to use a Hart-authorized transactional email provider. The final provider list and applicable terms must be reviewed before launch.</p>
+      <p>The preview has no copied analytics tag and does not intentionally set marketing cookies. If analytics or other tracking is added later, this policy and consent behaviour must be updated before deployment.</p>
+
+      <h2>Security and limitations</h2>
+      <p>Reasonable technical safeguards can reduce risk but no website or email transmission can be guaranteed completely secure. Avoid sending sensitive health information through a general website form.</p>
+
+      <h2>External links</h2>
+      <p>This site links to external destinations such as Google, Facebook and Instagram. Those services have their own privacy practices and terms.</p>
+
+      <h2>Questions</h2>
+      <p>For privacy questions, contact Hart Dental at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>, call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>, or write to {SITE.address.street}, {SITE.address.locality}, {SITE.address.region} {SITE.address.postalCode}.</p>
+      <p><small>Draft updated: September 1, 2026.</small></p>
+    </div>
+  </section>
+</BaseLayout>
+

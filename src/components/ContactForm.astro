@@ -1,0 +1,63 @@
+---
+const preview = (import.meta.env.PUBLIC_SITE_MODE || "preview") !== "production";
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<form class="appointment-form" action="/api/appointment" method="post" data-appointment-form data-preview={preview ? "true" : "false"}>
+  {preview && (
+    <p class="form-notice" role="note"><strong>Preview mode:</strong> this form is validated, but no message is delivered.</p>
+  )}
+  <div class="form-grid">
+    <label>
+      <span>Name <b aria-hidden="true">*</b></span>
+      <input name="name" type="text" autocomplete="name" maxlength="100" required />
+    </label>
+    <label>
+      <span>Phone <b aria-hidden="true">*</b></span>
+      <input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" required />
+    </label>
+    <label>
+      <span>Email</span>
+      <input name="email" type="email" autocomplete="email" maxlength="160" />
+    </label>
+    <label>
+      <span>Preferred contact</span>
+      <select name="contactPreference">
+        <option value="phone">Phone</option>
+        <option value="email">Email</option>
+      </select>
+    </label>
+    <label class="form-wide">
+      <span>How can we help? <b aria-hidden="true">*</b></span>
+      <select name="reason" required>
+        <option value="">Choose one</option>
+        <option>New patient visit</option>
+        <option>Routine care</option>
+        <option>Dental concern</option>
+        <option>Emergency appointment</option>
+        <option>Ask the team to call me</option>
+      </select>
+    </label>
+    <label class="form-wide">
+      <span>Scheduling note <small>(optional)</small></span>
+      <textarea name="message" rows="4" maxlength="700" placeholder="For example: weekday mornings work best."></textarea>
+      <small>Please do not send medical details or urgent information through this form.</small>
+    </label>
+  </div>
+  <label class="honeypot" aria-hidden="true" tabindex="-1">
+    Leave this field empty
+    <input name="website" type="text" autocomplete="off" tabindex="-1" />
+  </label>
+  {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light"></div>}
+  <label class="form-consent">
+    <input name="consent" type="checkbox" value="yes" required />
+    <span>I consent to Hart Dental using these details to respond to my request. This is not a confirmed appointment.</span>
+  </label>
+  <div class="form-submit-row">
+    <button class="button" type="submit">Send request <span aria-hidden="true">→</span></button>
+    <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+  </div>
+</form>
+
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+

@@ -1,0 +1,126 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ClosingCta from "../components/ClosingCta.astro";
+import EnamelMark from "../components/EnamelMark.astro";
+import SectionIntro from "../components/SectionIntro.astro";
+import ServiceIndex from "../components/ServiceIndex.astro";
+import { dentists } from "../data/team";
+import { SITE } from "../data/site";
+import hero from "../assets/hart-team-hero.webp";
+import exterior from "../assets/office-exterior.jpg";
+
+const title = "Hart Dental | Prince George Dentist";
+const description = "Hart Dental is a community-focused dental office in Prince George, BC, providing preventive, restorative, cosmetic, emergency and family dental care.";
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/" bodyClass="home-page">
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero-media">
+      <Image src={hero} alt="The Hart Dental team outside the Prince George clinic" widths={[768, 1280, 1920, 2560]} sizes="100vw" loading="eager" fetchpriority="high" quality={82} />
+    </div>
+    <div class="home-hero-content shell">
+      <div class="home-hero-copy" data-reveal>
+        <p class="eyebrow eyebrow-light">Hart Dental · Prince George, BC</p>
+        <h1 id="home-title">Dentistry with heart.</h1>
+        <p class="hero-lede">Comprehensive dental care from a team that calls Prince George home—thoughtful, practical and centred on the person in the chair.</p>
+        <div class="hero-actions">
+          <a class="button" href="/contact-us#request">Request an appointment</a>
+          <a class="button button-outline" href="/services">Explore dental services</a>
+        </div>
+      </div>
+      <aside class="hero-aside">
+        <strong>New patients welcome</strong>
+        <p>3644 Austin Road W<br />Prince George, BC</p>
+      </aside>
+    </div>
+    <span class="hero-scroll" aria-hidden="true">Scroll to explore <i>↓</i></span>
+  </section>
+
+  <section class="section-pad paper-section">
+    <div class="home-statement shell">
+      <div class="home-statement-side" data-reveal>
+        <p class="eyebrow">A familiar kind of care</p>
+        <p>Dental visits work better when you understand your options and feel comfortable asking questions. The Hart Dental team takes time to make care clearer.</p>
+        <a class="text-link" href="/about-us">Meet your neighbourhood clinic <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="home-statement-copy" data-reveal>
+        <h2>Modern care. Northern warmth. No need to choose between the two.</h2>
+      </div>
+      <EnamelMark />
+    </div>
+  </section>
+
+  <section class="section-pad ink-section">
+    <div class="shell">
+      <SectionIntro eyebrow="Care, clearly organized" title="Start with what you need." copy="From routine prevention to restoring a tooth or making a visit more comfortable, explore Hart Dental’s current services in plain language." />
+      <ServiceIndex />
+    </div>
+  </section>
+
+  <section class="section-pad white-section">
+    <div class="shell">
+      <SectionIntro eyebrow="Your dentists" title="Local relationships, built one visit at a time." copy="Get to know the dentists currently presented by Hart Dental and the wider team supporting your care." />
+      <div class="dentist-strip">
+        {dentists.map((person) => (
+          <a class="person-card" href={`/our-team#${person.name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "")}`} data-reveal>
+            <figure>
+              <Image src={person.image} alt={person.alt} widths={[360, 560, 720]} sizes="(max-width: 620px) 100vw, 33vw" loading="lazy" quality={84} />
+              <figcaption><strong>{person.name}</strong><small>{person.role}</small></figcaption>
+            </figure>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top: 38px"><a class="button button-outline" href="/our-team">Meet the full team</a></p>
+    </div>
+  </section>
+
+  <section class="section-pad paper-section">
+    <div class="split-section shell">
+      <div class="split-media split-media-landscape" data-reveal>
+        <Image src={hero} alt="Members of the Hart Dental team in Prince George" widths={[640, 960, 1280]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" quality={83} />
+        <div class="image-caption"><span>The Hart Dental team</span><span>Prince George, BC</span></div>
+      </div>
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Your first visit</p>
+        <h2>A calm beginning makes a difference.</h2>
+        <p>Whether you are new to Prince George, returning to dental care or simply looking for a different fit, the first step is a conversation. Share what matters to you and the team will help plan an appropriate visit.</p>
+        <a class="button" href="/become-patient">What new patients can expect</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad white-section">
+    <div class="shell">
+      <div class="review-feature" data-reveal>
+        <blockquote>
+          “Everyone is so warm and welcoming. I felt 100% taken care of.”
+          <cite>Vanessa J · Review published on Hart Dental’s current website</cite>
+        </blockquote>
+      </div>
+      <div style="margin-top: 28px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+        <p style="max-width: 580px; color: var(--muted)">Patient experiences are personal. Read more reviews or share your own on Hart Dental’s established review profiles.</p>
+        <a class="text-link" href="/hart-dental-reviews">Read patient reviews <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="orange-section">
+    <div class="split-section shell section-pad">
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Find us in the Hart</p>
+        <h2>Close to home, easy to reach.</h2>
+        <p style="color: rgba(16,25,22,.76)">Hart Dental is located at 3644 Austin Road W in Prince George. Call ahead for urgent concerns so the team can guide you to the right next step.</p>
+        <div class="hero-actions">
+          <a class="button button-light" href={SITE.directionsUrl}>Get directions</a>
+          <a class="button button-outline" href={SITE.phoneHref}>Call {SITE.phoneDisplay}</a>
+        </div>
+      </div>
+      <div class="split-media split-media-landscape" data-reveal>
+        <Image src={exterior} alt="Exterior of Hart Dental at 3644 Austin Road W" widths={[640, 960, 1280]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" quality={83} />
+      </div>
+    </div>
+  </section>
+
+  <ClosingCta />
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ClosingCta from "../components/ClosingCta.astro";
+import { SITE } from "../data/site";
+
+const title = "Hart Dental Reviews | Hart Dental";
+const description = "Read patient review excerpts published by Hart Dental and visit its established Google and Facebook profiles to see more or share your experience.";
+const reviews = [
+  {
+    quote: "Dr. Jas Pahal is such a kind and compassionate dentist. He really cares about patient care. He will do his absolute best, as he has with me. Also I love the staff at Hart Dental, everyone is so warm and welcoming. I felt 100% taken care of.",
+    name: "Vanessa J"
+  },
+  {
+    quote: "The dentist is very kind, patient, and considerate. She frequently asked how I was feeling and ensured to remind me that if I had any problems or felt uncomfortable at all to raise my hand and she will stop. The hygienist and all assistants are also very friendly and helpful!",
+    name: "Skyla C"
+  },
+  {
+    quote: "Dr. Jas Pahal is very professional and explains everything clearly and he made sure I was calm and comfortable. The staff is accommodating, respectful, and kind. The office has a pleasant atmosphere.",
+    name: "S Ebadzad"
+  }
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/hart-dental-reviews">
+  <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Reviews" }]} />
+  <section class="page-hero page-hero-ink">
+    <div class="page-hero-grid shell">
+      <div data-reveal>
+        <p class="eyebrow eyebrow-light">Patient words</p>
+        <h1>Experiences shared by Hart Dental patients.</h1>
+      </div>
+      <div class="page-hero-copy" data-reveal>
+        <p>The excerpts below are carried forward from Hart Dental’s current review page. They are attributed to the names shown there and are not used as aggregate-rating markup.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad paper-section">
+    <div class="shell">
+      <div class="review-grid">
+        {reviews.map((review) => (
+          <article class="review-card" data-reveal>
+            <p>“{review.quote}”</p>
+            <cite>{review.name} · Published by Hart Dental</cite>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad white-section">
+    <div class="split-section shell">
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Read more</p>
+        <h2>Visit the established profiles.</h2>
+      </div>
+      <div class="split-copy" data-reveal>
+        <p>Review platforms can change over time. Use Hart Dental’s established Google and Facebook destinations to read the current public feedback or share your own experience.</p>
+        <div class="hero-actions">
+          <a class="button" href={SITE.googleReviewUrl} rel="external">Reviews on Google</a>
+          <a class="button button-outline" href={SITE.facebookUrl} rel="external">Hart Dental on Facebook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ClosingCta title="Ready to form your own impression?" />
+</BaseLayout>
+

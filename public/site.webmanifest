@@ -1,0 +1,17 @@
+{
+  "name": "Hart Dental",
+  "short_name": "Hart Dental",
+  "description": "Family dental care in Prince George, British Columbia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4efe6",
+  "theme_color": "#18332d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

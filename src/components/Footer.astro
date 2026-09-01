@@ -1,0 +1,58 @@
+---
+import { HOURS, PRIMARY_NAV, SITE, addressInline } from "../data/site";
+import { services } from "../data/services";
+---
+
+<footer class="site-footer">
+  <div class="footer-lead shell">
+    <div>
+      <p class="eyebrow eyebrow-light">Your neighbourhood dental office</p>
+      <h2>Care that feels close to home.</h2>
+    </div>
+    <a class="button button-light" href="/contact-us#request">Request an appointment <span aria-hidden="true">↗</span></a>
+  </div>
+
+  <div class="footer-grid shell">
+    <section aria-labelledby="footer-contact">
+      <h3 id="footer-contact">Visit Hart Dental</h3>
+      <address>
+        {addressInline()}<br />
+        <a href={SITE.directionsUrl}>Get directions</a>
+      </address>
+      <p><a href={SITE.phoneHref}>{SITE.phoneDisplay}</a><br /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+      <div class="social-links">
+        <a href={SITE.facebookUrl} rel="me external">Facebook</a>
+        <a href={SITE.instagramUrl} rel="me external">Instagram</a>
+      </div>
+    </section>
+
+    <section aria-labelledby="footer-hours">
+      <h3 id="footer-hours">Office hours</h3>
+      <dl class="hours-list compact">
+        {HOURS.map((item) => <><dt>{item.shortDay}</dt><dd>{item.display}</dd></>)}
+      </dl>
+    </section>
+
+    <section aria-labelledby="footer-pages">
+      <h3 id="footer-pages">Explore</h3>
+      <ul class="footer-links">
+        {PRIMARY_NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/privacy-policy">Privacy</a></li>
+        <li><a href="/sitemap">Sitemap</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="footer-services">
+      <h3 id="footer-services">Dental services</h3>
+      <ul class="footer-links footer-service-links">
+        {services.slice(0, 7).map((service) => <li><a href={`/services/${service.slug}`}>{service.navTitle}</a></li>)}
+      </ul>
+      <a class="text-link" href="/services">View all services <span aria-hidden="true">→</span></a>
+    </section>
+  </div>
+
+  <div class="footer-bottom shell">
+    <p>© {new Date().getFullYear()} Hart Dental. All rights reserved.</p>
+    <p>General information only. Your dentist will recommend care based on an examination.</p>
+  </div>
+</footer>

@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ClosingCta from "../components/ClosingCta.astro";
+import { dentists, team } from "../data/team";
+import { absoluteUrl } from "../data/site";
+
+const title = "Our Team | Hart Dental";
+const description = "Meet the dentists, hygienists, certified dental assistants and patient coordinators currently presented by Hart Dental in Prince George.";
+const anchorFor = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
+const roleGroups = [
+  { title: "Hygienists", people: team.filter((person) => person.role === "Hygienist") },
+  { title: "Certified Dental Assistants", people: team.filter((person) => person.role === "Certified Dental Assistant") },
+  { title: "Patient Coordination", people: team.filter((person) => person.role.includes("Patient Coordinator")) }
+];
+const schema = dentists.map((person) => ({
+  "@type": "Person",
+  "@id": `${absoluteUrl("/our-team")}#${anchorFor(person.name)}`,
+  name: person.name,
+  jobTitle: person.role,
+  worksFor: { "@id": "https://www.hartdental.ca/#dentist" },
+  url: `${absoluteUrl("/our-team")}#${anchorFor(person.name)}`,
+  image: absoluteUrl(person.image.src)
+}));
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/our-team" schema={schema}>
+  <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Our Team" }]} />
+  <section class="page-hero paper-section">
+    <div class="page-hero-grid shell">
+      <div data-reveal>
+        <p class="eyebrow">Our team</p>
+        <h1>Good care is a team effort.</h1>
+      </div>
+      <div class="page-hero-copy" data-reveal>
+        <p>Dentists, hygienists, assistants and patient coordinators each shape the experience. Meet the people currently presented by Hart Dental.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad white-section">
+    <div class="shell">
+      {dentists.map((person) => (
+        <article class="dentist-profile" id={anchorFor(person.name)}>
+          <Image src={person.image} alt={person.alt} widths={[480, 720, 960]} sizes="(max-width: 620px) 100vw, 40vw" quality={85} data-reveal />
+          <div data-reveal>
+            <h2>{person.name}</h2>
+            <p class="role">{person.role}</p>
+            {person.bio ? person.bio.map((paragraph) => <p>{paragraph}</p>) : <p>Hart Dental’s current website identifies {person.name} as a dentist but does not publish a biography. This preview intentionally does not invent one.</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-pad paper-section">
+    <div class="shell">
+      <header class="section-intro" data-reveal>
+        <p class="eyebrow">The wider team</p>
+        <h2>Many hands, one patient experience.</h2>
+      </header>
+      {roleGroups.map((group) => (
+        <section class="team-category" aria-labelledby={`group-${anchorFor(group.title)}`}>
+          <h3 class="team-category-heading" id={`group-${anchorFor(group.title)}`}>{group.title}</h3>
+          <div class="team-grid">
+            {group.people.map((person) => (
+              <article class="person-card" data-reveal>
+                <figure>
+                  <Image src={person.image} alt={person.alt} widths={[280, 440, 600]} sizes="(max-width: 620px) 50vw, 25vw" loading="lazy" quality={83} />
+                  <figcaption><strong>{person.name}</strong><small>{person.role}</small></figcaption>
+                </figure>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <ClosingCta title="Come meet the team in person." />
+</BaseLayout>
+

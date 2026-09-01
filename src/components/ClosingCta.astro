@@ -1,0 +1,33 @@
+---
+import EnamelMark from "./EnamelMark.astro";
+import { SITE } from "../data/site";
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  copy?: string;
+}
+const {
+  eyebrow = "A simpler next step",
+  title = "Let’s make room for a healthier smile.",
+  copy = "Tell us how we can help, or call the office to speak with the Hart Dental team."
+} = Astro.props;
+---
+
+<section class="closing-cta">
+  <EnamelMark />
+  <div class="shell">
+    <div data-reveal>
+      <p class="eyebrow eyebrow-light">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+    <div data-reveal>
+      <p>{copy}</p>
+      <div class="closing-actions">
+        <a class="button button-light" href="/contact-us#request">Request an appointment</a>
+        <a class="button button-outline" href={SITE.phoneHref}>Call {SITE.phoneDisplay}</a>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,29 @@
+---
+import { serviceGroups } from "../data/services";
+
+interface Props { compact?: boolean; headingLevel?: "h2" | "h3" }
+const { compact = false, headingLevel = "h3" } = Astro.props;
+const GroupHeading = headingLevel;
+---
+
+<div class:list={["service-index", compact && "service-index-compact"]}>
+  {serviceGroups.map((group, groupIndex) => (
+    <section class="service-group" aria-labelledby={`service-group-${groupIndex}`} data-reveal>
+      <div class="service-group-heading">
+        <span aria-hidden="true">0{groupIndex + 1}</span>
+        <GroupHeading id={`service-group-${groupIndex}`}>{group.category}</GroupHeading>
+      </div>
+      <ul>
+        {group.services.map((service) => (
+          <li>
+            <a href={`/services/${service.slug}`}>
+              <span>{service.navTitle}</span>
+              {!compact && <small>{service.short}</small>}
+              <i aria-hidden="true">↗</i>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>

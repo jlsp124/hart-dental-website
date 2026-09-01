@@ -1,0 +1,125 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ClosingCta from "../../components/ClosingCta.astro";
+import EnamelMark from "../../components/EnamelMark.astro";
+import { services, servicesBySlug, servicePath, type Service } from "../../data/services";
+import { SITE, absoluteUrl } from "../../data/site";
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+interface Props { service: Service }
+const { service } = Astro.props;
+const index = services.findIndex((item) => item.slug === service.slug) + 1;
+const path = servicePath(service);
+const related = service.related.map((slug) => servicesBySlug.get(slug)).filter((item): item is Service => Boolean(item));
+const sectionIds = service.sections.map((section) => section.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
+const pageUrl = absoluteUrl(path);
+const schema = [
+  {
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: service.navTitle,
+    serviceType: service.navTitle,
+    description: service.description,
+    url: pageUrl,
+    provider: { "@id": `${SITE.origin}/#dentist` },
+    areaServed: { "@type": "City", name: "Prince George", containedInPlace: { "@type": "AdministrativeArea", name: "British Columbia" } }
+  },
+  {
+    "@type": "BreadcrumbList",
+    "@id": `${pageUrl}#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl("/services") },
+      { "@type": "ListItem", position: 3, name: service.navTitle, item: pageUrl }
+    ]
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: service.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer }
+    }))
+  }
+];
+---
+
+<BaseLayout title={service.title} description={service.description} canonicalPath={path} schema={schema}>
+  <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Services", href: "/services" }, { name: service.navTitle }]} />
+  <section class="service-hero">
+    <span class="service-number" aria-hidden="true">{String(index).padStart(2, "0")}</span>
+    <EnamelMark />
+    <div class="shell">
+      <p class="eyebrow eyebrow-light">{service.category} · Dental services</p>
+      <h1>{service.h1}</h1>
+      <p class="lede">{service.intro}</p>
+    </div>
+  </section>
+
+  <section class="section-pad white-section">
+    <div class="service-body shell">
+      <aside class="service-aside" aria-label="On this page">
+        <h2>On this page</h2>
+        <ul>
+          {service.sections.map((section, sectionIndex) => <li><a href={`#${sectionIds[sectionIndex]}`}>{section.title}</a></li>)}
+          <li><a href="#questions">Questions</a></li>
+        </ul>
+        <a class="button button-small" href="/contact-us#request">Request a visit</a>
+      </aside>
+
+      <div class="service-content">
+        {service.sections.map((section, sectionIndex) => (
+          <section class="content-section" id={sectionIds[sectionIndex]} data-reveal>
+            <h2>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            {section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}
+          </section>
+        ))}
+
+        <aside class="info-note" data-reveal>
+          <p><strong>A note about this page:</strong> This is general information, not a diagnosis or treatment plan. Call Hart Dental at <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> for an assessment. For severe swelling, trouble breathing, uncontrolled bleeding or a serious injury, seek urgent medical help.</p>
+        </aside>
+
+        <section class="content-section" id="questions" style="padding-top: 75px" data-reveal>
+          <p class="eyebrow">Common questions</p>
+          <h2>Good to know.</h2>
+          <div class="faq-list">
+            {service.faqs.map((faq) => (
+              <details>
+                <summary>{faq.question}</summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+          {service.sourceUrl && <p style="margin-top: 25px; font-size: .78rem">Health information source: <a href={service.sourceUrl} rel="external">view the public-health reference used for this page</a>.</p>}
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad paper-section">
+    <div class="shell">
+      <header class="section-intro" data-reveal>
+        <p class="eyebrow">Keep exploring</p>
+        <h2>Related services.</h2>
+      </header>
+      <div class="related-grid">
+        {related.map((item) => (
+          <a class="related-card" href={servicePath(item)} data-reveal>
+            <small>{item.category}</small>
+            <strong>{item.navTitle}</strong>
+            <i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ClosingCta title={`Questions about ${service.navTitle.toLowerCase()}?`} copy="A conversation and an examination are the right place to begin. Phone for urgent concerns." />
+</BaseLayout>
+
