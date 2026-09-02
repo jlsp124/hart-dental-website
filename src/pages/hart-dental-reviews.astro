@@ -5,20 +5,11 @@ import ClosingCta from "../components/ClosingCta.astro";
 import { SITE } from "../data/site";
 
 const title = "Hart Dental Reviews | Hart Dental";
-const description = "Read patient review excerpts published by Hart Dental and visit its established Google and Facebook profiles to see more or share your experience.";
+const description = "Read patient review excerpts and visit Hart Dental’s established Google and Facebook profiles to see more or share your experience.";
 const reviews = [
-  {
-    quote: "Dr. Jas Pahal is such a kind and compassionate dentist. He really cares about patient care. He will do his absolute best, as he has with me. Also I love the staff at Hart Dental, everyone is so warm and welcoming. I felt 100% taken care of.",
-    name: "Vanessa J"
-  },
-  {
-    quote: "The dentist is very kind, patient, and considerate. She frequently asked how I was feeling and ensured to remind me that if I had any problems or felt uncomfortable at all to raise my hand and she will stop. The hygienist and all assistants are also very friendly and helpful!",
-    name: "Skyla C"
-  },
-  {
-    quote: "Dr. Jas Pahal is very professional and explains everything clearly and he made sure I was calm and comfortable. The staff is accommodating, respectful, and kind. The office has a pleasant atmosphere.",
-    name: "S Ebadzad"
-  }
+  "Dr. Jas Pahal is such a kind and compassionate dentist. He really cares about patient care. He will do his absolute best, as he has with me. Also I love the staff at Hart Dental, everyone is so warm and welcoming. I felt 100% taken care of.",
+  "The dentist is very kind, patient, and considerate. She frequently asked how I was feeling and ensured to remind me that if I had any problems or felt uncomfortable at all to raise my hand and she will stop. The hygienist and all assistants are also very friendly and helpful!",
+  "Dr. Jas Pahal is very professional and explains everything clearly and he made sure I was calm and comfortable. The staff is accommodating, respectful, and kind. The office has a pleasant atmosphere."
 ];
 ---
 
@@ -31,7 +22,7 @@ const reviews = [
         <h1>Experiences shared by Hart Dental patients.</h1>
       </div>
       <div class="page-hero-copy" data-reveal>
-        <p>The excerpts below are carried forward from Hart Dental’s current review page. They are attributed to the names shown there and are not used as aggregate-rating markup.</p>
+        <p>These selected patient excerpts are presented without names and are not used as aggregate-rating markup.</p>
       </div>
     </div>
   </section>
@@ -41,8 +32,7 @@ const reviews = [
       <div class="review-grid">
         {reviews.map((review) => (
           <article class="review-card" data-reveal>
-            <p>“{review.quote}”</p>
-            <cite>{review.name} · Published by Hart Dental</cite>
+            <p>“{review}”</p>
           </article>
         ))}
       </div>
@@ -67,4 +57,3 @@ const reviews = [
 
   <ClosingCta title="Ready to form your own impression?" />
 </BaseLayout>
-
