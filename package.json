@@ -21,9 +21,11 @@
     "astro": "7.2.10"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "latest",
     "@astrojs/check": "latest",
     "@axe-core/playwright": "4.13.0",
+    "@cloudflare/workers-types": "latest",
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
     "@playwright/test": "1.62.1",
     "@types/node": "latest",
     "sharp": "latest",
