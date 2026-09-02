@@ -1,0 +1,28 @@
+---
+import { absoluteUrl, sitePath } from "../data/site";
+
+interface Props {
+  targetPath: string;
+  label: string;
+}
+
+const { targetPath, label } = Astro.props;
+const target = sitePath(targetPath);
+const canonical = absoluteUrl(targetPath);
+---
+
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <title>Redirecting | Hart Dental</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{label}</a>…</p>
+    <script is:inline set:html={`window.location.replace(${JSON.stringify(target)});`}></script>
+  </body>
+</html>

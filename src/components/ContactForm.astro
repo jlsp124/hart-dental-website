@@ -1,9 +1,10 @@
 ---
 const preview = (import.meta.env.PUBLIC_SITE_MODE || "preview") !== "production";
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+import { sitePath } from "../data/site";
 ---
 
-<form class="appointment-form" action="/api/appointment" method="post" data-appointment-form data-preview={preview ? "true" : "false"}>
+<form class="appointment-form" action={sitePath("/api/appointment")} method="post" data-appointment-form data-preview={preview ? "true" : "false"}>
   {preview && (
     <p class="form-notice" role="note"><strong>Preview mode:</strong> this form is validated, but no message is delivered.</p>
   )}
@@ -60,4 +61,3 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 </form>
 
 {turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
-

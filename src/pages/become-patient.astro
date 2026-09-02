@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ClosingCta from "../components/ClosingCta.astro";
 import hero from "../assets/hart-team-hero.webp";
-import { SITE } from "../data/site";
+import { SITE, sitePath } from "../data/site";
 
 const title = "Become a Patient | Hart Dental";
 const description = "Hart Dental welcomes new patients in Prince George. Learn what to bring, what to expect and how to request a first appointment.";
@@ -20,7 +20,7 @@ const description = "Hart Dental welcomes new patients in Prince George. Learn w
       </div>
       <div class="page-hero-copy" data-reveal>
         <p>New to Hart Dental? Tell the team what brings you in, what you are concerned about and what would make the visit more comfortable.</p>
-        <a class="button" href="/contact-us#request">Request a first appointment</a>
+        <a class="button" href={sitePath("/contact-us#request")}>Request a first appointment</a>
       </div>
     </div>
   </section>

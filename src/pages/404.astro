@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { sitePath } from "../data/site";
 ---
 
 <BaseLayout title="Page Not Found | Hart Dental" description="The page you requested could not be found." canonicalPath="/404">
@@ -9,10 +10,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h2>This page has moved or does not exist.</h2>
       <p>Try the service directory, return home, or contact Hart Dental if you were looking for something specific.</p>
       <div class="hero-actions" style="justify-content: center">
-        <a class="button" href="/">Return home</a>
-        <a class="button button-outline" href="/services">Browse services</a>
+        <a class="button" href={sitePath("/")}>Return home</a>
+        <a class="button button-outline" href={sitePath("/services")}>Browse services</a>
       </div>
     </div>
   </section>
 </BaseLayout>
-

@@ -4,7 +4,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ClosingCta from "../../components/ClosingCta.astro";
 import EnamelMark from "../../components/EnamelMark.astro";
 import { services, servicesBySlug, servicePath, type Service } from "../../data/services";
-import { SITE, absoluteUrl } from "../../data/site";
+import { SITE, absoluteUrl, sitePath } from "../../data/site";
 
 export function getStaticPaths() {
   return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
@@ -69,7 +69,7 @@ const schema = [
           {service.sections.map((section, sectionIndex) => <li><a href={`#${sectionIds[sectionIndex]}`}>{section.title}</a></li>)}
           <li><a href="#questions">Questions</a></li>
         </ul>
-        <a class="button button-small" href="/contact-us#request">Request a visit</a>
+        <a class="button button-small" href={sitePath("/contact-us#request")}>Request a visit</a>
       </aside>
 
       <div class="service-content">
@@ -110,7 +110,7 @@ const schema = [
       </header>
       <div class="related-grid">
         {related.map((item) => (
-          <a class="related-card" href={servicePath(item)} data-reveal>
+          <a class="related-card" href={sitePath(servicePath(item))} data-reveal>
             <small>{item.category}</small>
             <strong>{item.navTitle}</strong>
             <i aria-hidden="true">↗</i>
@@ -122,4 +122,3 @@ const schema = [
 
   <ClosingCta title={`Questions about ${service.navTitle.toLowerCase()}?`} copy="A conversation and an examination are the right place to begin. Phone for urgent concerns." />
 </BaseLayout>
-

@@ -57,11 +57,21 @@ const appointmentForm = document.querySelector<HTMLFormElement>("[data-appointme
 if (appointmentForm) {
   const status = appointmentForm.querySelector<HTMLElement>("[data-form-status]");
   const submit = appointmentForm.querySelector<HTMLButtonElement>("button[type='submit']");
+  const preview = appointmentForm.dataset.preview === "true";
 
   appointmentForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!appointmentForm.reportValidity()) return;
     status?.classList.remove("is-error", "is-success");
+
+    if (preview) {
+      if (status) {
+        status.textContent = "Preview only — no message was sent. Please call 250-962-5351 to contact the clinic.";
+        status.classList.add("is-success");
+      }
+      return;
+    }
+
     if (status) status.textContent = "Sending…";
     if (submit) submit.disabled = true;
 
@@ -90,4 +100,3 @@ if (appointmentForm) {
     }
   });
 }
-

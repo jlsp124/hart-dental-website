@@ -1,15 +1,16 @@
 ---
-import { PRIMARY_NAV, SITE } from "../data/site";
+import { PRIMARY_NAV, SITE, sitePath } from "../data/site";
 
-const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const pathname = (base && Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname).replace(/\/$/, "") || "/";
 const isActive = (href: string) => href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 ---
 
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header" data-header>
   <div class="header-shell">
-    <a class="wordmark" href="/" aria-label="Hart Dental home">
-      <img src="/favicon.svg" alt="" width="64" height="64" />
+    <a class="wordmark" href={sitePath("/")} aria-label="Hart Dental home">
+      <img src={sitePath("/favicon.svg")} alt="" width="64" height="64" />
       <span class="wordmark-text">
         <strong>Hart Dental</strong>
         <small>Prince George, BC</small>
@@ -24,12 +25,12 @@ const isActive = (href: string) => href === "/" ? pathname === "/" : pathname ==
     <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation" data-nav>
       <ul>
         {PRIMARY_NAV.map((item) => (
-          <li><a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a></li>
+          <li><a href={sitePath(item.href)} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a></li>
         ))}
       </ul>
       <div class="nav-actions">
         <a class="nav-phone" href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
-        <a class="button button-small" href="/contact-us#request">Request an appointment</a>
+        <a class="button button-small" href={sitePath("/contact-us#request")}>Request an appointment</a>
       </div>
     </nav>
   </div>

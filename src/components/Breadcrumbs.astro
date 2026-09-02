@@ -1,5 +1,6 @@
 ---
 type Crumb = { name: string; href?: string };
+import { sitePath } from "../data/site";
 interface Props { items: Crumb[] }
 const { items } = Astro.props;
 ---
@@ -8,9 +9,8 @@ const { items } = Astro.props;
   <ol>
     {items.map((item, index) => (
       <li>
-        {item.href && index !== items.length - 1 ? <a href={item.href}>{item.name}</a> : <span aria-current={index === items.length - 1 ? "page" : undefined}>{item.name}</span>}
+        {item.href && index !== items.length - 1 ? <a href={sitePath(item.href)}>{item.name}</a> : <span aria-current={index === items.length - 1 ? "page" : undefined}>{item.name}</span>}
       </li>
     ))}
   </ol>
 </nav>
-

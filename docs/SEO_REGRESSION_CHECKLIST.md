@@ -49,7 +49,7 @@ The final two commands restore and verify the safe preview build.
 - Confirm each of the 23 kept routes returns `200` and both legacy routes perform one direct `301`.
 - Compare titles, H1 intent and page purpose with `CURRENT_SITE_AUDIT.md`.
 - Validate the XML sitemap and a sample of JSON-LD with current Google tools.
-- Ensure preview hosts remain `noindex`; do not submit a `.pages.dev` sitemap.
+- Ensure preview hosts remain `noindex`; do not submit a GitHub Pages or other preview sitemap.
 - Export current Google Search Console pages, queries, links, sitemap and coverage data. Export equivalent Bing data. Store dated raw exports outside the public repository.
 - Re-crawl production and compare status, canonical, indexability, title, description, H1, structured data and internal-link counts by URL.
 - Check mobile rendering, phone links, directions, forms and the custom 404 on the release candidate.
@@ -65,4 +65,3 @@ Treat deployment, crawl, indexing and ranking as separate states:
 - 4–6 weeks: evaluate trends using comparable date ranges; account for seasonality, algorithm changes and listing changes.
 
 Never report sitelinks, indexing or rankings as preserved solely because the deployment succeeded. Label outcomes `CONFIRMED`, `LIKELY`, `UNVERIFIED` or `PROPAGATION PENDING` with dated evidence.
-

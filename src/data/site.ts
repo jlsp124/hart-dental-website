@@ -60,6 +60,12 @@ export function absoluteUrl(path = "/") {
   return new URL(normalized, SITE.origin).toString().replace(/\/$/, normalized === "/" ? "/" : "");
 }
 
+export function sitePath(path = "/") {
+  if (!path.startsWith("/")) return path;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return `${base}${path}` || "/";
+}
+
 export function addressInline() {
   const { street, locality, region, postalCode } = SITE.address;
   return `${street}, ${locality}, ${region} ${postalCode}`;

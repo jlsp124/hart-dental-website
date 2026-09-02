@@ -1,5 +1,6 @@
 ---
 import { serviceGroups } from "../data/services";
+import { sitePath } from "../data/site";
 
 interface Props { compact?: boolean; headingLevel?: "h2" | "h3" }
 const { compact = false, headingLevel = "h3" } = Astro.props;
@@ -16,7 +17,7 @@ const GroupHeading = headingLevel;
       <ul>
         {group.services.map((service) => (
           <li>
-            <a href={`/services/${service.slug}`}>
+            <a href={sitePath(`/services/${service.slug}`)}>
               <span>{service.navTitle}</span>
               {!compact && <small>{service.short}</small>}
               <i aria-hidden="true">↗</i>

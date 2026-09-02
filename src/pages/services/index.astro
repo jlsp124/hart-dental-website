@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ClosingCta from "../../components/ClosingCta.astro";
 import ServiceIndex from "../../components/ServiceIndex.astro";
-import { absoluteUrl } from "../../data/site";
+import { absoluteUrl, sitePath } from "../../data/site";
 
 const title = "Dental Services | Hart Dental";
 const description = "Explore dental services at Hart Dental in Prince George, including preventive, restorative, cosmetic, emergency, implant, orthodontic and comfort-focused care.";
@@ -26,7 +26,7 @@ const schema = {
       </div>
       <div class="page-hero-copy" data-reveal>
         <p>Dental needs change over time. Browse Hart Dental’s current services by the role they can play: preventing problems, restoring function or making care more comfortable.</p>
-        <p><a class="text-link" href="/contact-us">Not sure where to start? Contact us <span aria-hidden="true">→</span></a></p>
+        <p><a class="text-link" href={sitePath("/contact-us")}>Not sure where to start? Contact us <span aria-hidden="true">→</span></a></p>
       </div>
     </div>
   </section>
@@ -45,7 +45,7 @@ const schema = {
       </div>
       <div class="split-copy" data-reveal>
         <p>These pages explain general service categories and common questions. They cannot determine which treatment is right for you. A dentist will review your health, examine the area and discuss appropriate options, alternatives and costs before care begins.</p>
-        <a class="button" href="/become-patient">Become a patient</a>
+        <a class="button" href={sitePath("/become-patient")}>Become a patient</a>
       </div>
     </div>
   </section>

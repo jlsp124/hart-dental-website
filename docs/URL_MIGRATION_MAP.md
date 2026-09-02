@@ -51,7 +51,7 @@ Cloudflare Pages `_redirects` rules:
 /dental-videos/* /services 301
 ```
 
-The exact production form will be tested on the `.pages.dev` host before DNS migration. Redirect targets must return `200`, and the old URL must reach the target in one hop.
+The exact production form must be tested on a production-capable staging host before DNS migration. GitHub Pages cannot run the Function. Redirect targets must return `200`, and the old URL must reach the target in one hop.
 
 ## Backlink preservation work before production
 
@@ -62,4 +62,3 @@ The exact production form will be tested on the `.pages.dev` host before DNS mig
 5. Add a direct rule for any historically linked URL not in the current sitemap.
 6. Do not redirect unrelated expired URLs to the homepage; use the closest true replacement or a useful 404.
 7. Keep the redirect table under version control and test it after every change.
-

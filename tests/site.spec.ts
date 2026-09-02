@@ -32,11 +32,12 @@ test("homepage renders without overflow or client errors", async ({ page }, test
     }
     window.scrollTo(0, 0);
   });
-  const unloadedImages = await page.locator("img").evaluateAll((images) => images.filter((image) => {
-    const img = image as HTMLImageElement;
-    return !img.complete || img.naturalWidth === 0;
-  }).length);
-  expect(unloadedImages).toBe(0);
+  const images = page.locator("img");
+  for (let index = 0; index < await images.count(); index += 1) {
+    const image = images.nth(index);
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((item) => (item as HTMLImageElement).naturalWidth), { timeout: 10_000 }).toBeGreaterThan(0);
+  }
   await mkdir("artifacts/qa", { recursive: true });
   await page.screenshot({ path: `artifacts/qa/home-${testInfo.project.name}.png`, fullPage: true });
 });
@@ -67,6 +68,10 @@ test("core pages pass automated accessibility checks", async ({ page }) => {
 
 test("appointment request is safe and non-delivering in preview", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Run the form flow once.");
+  let appointmentRequests = 0;
+  page.on("request", (request) => {
+    if (request.url().endsWith("/api/appointment")) appointmentRequests += 1;
+  });
   await page.goto("/contact-us#request");
   const form = page.locator("[data-appointment-form]");
   await form.locator("input[name=name]").fill("Preview Test");
@@ -74,13 +79,9 @@ test("appointment request is safe and non-delivering in preview", async ({ page 
   await form.locator("input[name=email]").fill("preview@example.com");
   await form.locator("select[name=reason]").selectOption({ label: "New patient visit" });
   await form.locator("input[name=consent]").check();
-  const responsePromise = page.waitForResponse((response) => response.url().endsWith("/api/appointment"));
   await form.getByRole("button", { name: /send request/i }).click();
-  const response = await responsePromise;
-  expect(response.status()).toBe(200);
-  const data = await response.json();
-  expect(data).toMatchObject({ ok: true, delivered: false, mode: "preview" });
-  await expect(form.locator("[data-form-status]")).toContainText("No message was sent");
+  await expect(form.locator("[data-form-status]")).toContainText(/no message was sent/i);
+  expect(appointmentRequests).toBe(0);
 });
 
 test("all preserved routes return content", async ({ request }, testInfo) => {

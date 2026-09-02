@@ -5,6 +5,7 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ClosingCta from "../components/ClosingCta.astro";
 import exterior from "../assets/office-exterior.jpg";
 import hero from "../assets/hart-team-hero.webp";
+import { sitePath } from "../data/site";
 
 const title = "About Us | Hart Dental";
 const description = "Learn about Hart Dental, a community-focused dental office serving Prince George from 3644 Austin Road W.";
@@ -35,7 +36,7 @@ const description = "Learn about Hart Dental, a community-focused dental office 
         <h2>Care belongs in the community.</h2>
         <p>A dental office is more than equipment and treatment rooms. It is a place where children have first visits, people bring questions they have been putting off, and families return over time. Hart Dental’s current team includes dentists and staff with strong Prince George connections.</p>
         <p>The approach is straightforward: listen first, explain the findings, and build a plan around the patient in front of you.</p>
-        <a class="button" href="/our-team">Meet the team</a>
+        <a class="button" href={sitePath("/our-team")}>Meet the team</a>
       </div>
     </div>
   </section>
@@ -70,7 +71,7 @@ const description = "Learn about Hart Dental, a community-focused dental office 
         <h2>Designed to feel calm, not clinical.</h2>
         <p>The office presents a bright, approachable setting and a team that supports patients through scheduling, hygiene, chairside care and follow-up.</p>
         <p>Questions about insurance, payment or the timing of treatment are best discussed with the office directly. Coverage varies by plan, and an estimate is not a guarantee of reimbursement.</p>
-        <a class="text-link" href="/contact-us">Contact Hart Dental <span aria-hidden="true">→</span></a>
+        <a class="text-link" href={sitePath("/contact-us")}>Contact Hart Dental <span aria-hidden="true">→</span></a>
       </div>
       <div class="split-media split-media-landscape" data-reveal>
         <Image src={hero} alt="The current Hart Dental team in Prince George" widths={[640, 960, 1280]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" quality={84} />

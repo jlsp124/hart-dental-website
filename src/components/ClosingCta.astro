@@ -1,6 +1,6 @@
 ---
 import EnamelMark from "./EnamelMark.astro";
-import { SITE } from "../data/site";
+import { SITE, sitePath } from "../data/site";
 
 interface Props {
   eyebrow?: string;
@@ -24,10 +24,9 @@ const {
     <div data-reveal>
       <p>{copy}</p>
       <div class="closing-actions">
-        <a class="button button-light" href="/contact-us#request">Request an appointment</a>
+        <a class="button button-light" href={sitePath("/contact-us#request")}>Request an appointment</a>
         <a class="button button-outline" href={SITE.phoneHref}>Call {SITE.phoneDisplay}</a>
       </div>
     </div>
   </div>
 </section>
-

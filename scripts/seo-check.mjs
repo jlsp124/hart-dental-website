@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const origin = "https://www.hartdental.ca";
+const previewBase = (process.env.PUBLIC_BASE_PATH || "").replace(/\/$/, "");
 const serviceSlugs = [
   "childrens-dentistry-prince-george",
   "cosmetic-dentistry-prince-george",
@@ -78,7 +79,9 @@ for (const route of routes) {
   for (const match of links) {
     const reference = decode(match[1]).split("#")[0].split("?")[0];
     if (!reference || reference.startsWith("http") || reference.startsWith("mailto:") || reference.startsWith("tel:") || reference.startsWith("data:")) continue;
-    const normalized = reference.startsWith("/") ? reference : new URL(reference, `${origin}${route.endsWith("/") ? route : `${route}/`}`).pathname;
+    let normalized = reference.startsWith("/") ? reference : new URL(reference, `${origin}${route.endsWith("/") ? route : `${route}/`}`).pathname;
+    if (previewBase && normalized === previewBase) normalized = "/";
+    else if (previewBase && normalized.startsWith(`${previewBase}/`)) normalized = normalized.slice(previewBase.length);
     if (normalized.startsWith("/api/")) continue;
     const target = path.extname(normalized)
       ? path.join(dist, normalized.slice(1))
@@ -113,4 +116,3 @@ if (failures.length) {
 }
 
 console.log(`SEO regression check passed: ${routes.length} preserved routes, unique metadata, canonicals, H1s, schema, links, sitemap, robots and redirects.`);
-

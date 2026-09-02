@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import { PRIMARY_NAV } from "../data/site";
+import { PRIMARY_NAV, sitePath } from "../data/site";
 import { serviceGroups } from "../data/services";
 
 const title = "Sitemap | Hart Dental";
@@ -21,18 +21,17 @@ const description = "Browse every primary page and dental service on the Hart De
       <section>
         <h2>Hart Dental</h2>
         <ul>
-          <li><a href="/">Home</a></li>
-          {PRIMARY_NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href={sitePath("/")}>Home</a></li>
+          {PRIMARY_NAV.map((item) => <li><a href={sitePath(item.href)}>{item.label}</a></li>)}
+          <li><a href={sitePath("/privacy-policy")}>Privacy Policy</a></li>
         </ul>
       </section>
       {serviceGroups.map((group) => (
         <section>
           <h2>{group.category} services</h2>
-          <ul>{group.services.map((service) => <li><a href={`/services/${service.slug}`}>{service.navTitle}</a></li>)}</ul>
+          <ul>{group.services.map((service) => <li><a href={sitePath(`/services/${service.slug}`)}>{service.navTitle}</a></li>)}</ul>
         </section>
       ))}
     </div>
   </section>
 </BaseLayout>
-
