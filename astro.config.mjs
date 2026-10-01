@@ -6,6 +6,7 @@ export default defineConfig({
   site: "https://www.hartdental.ca",
   base,
   output: "static",
+  devToolbar: { enabled: false },
   trailingSlash: "ignore",
   build: {
     format: "directory"

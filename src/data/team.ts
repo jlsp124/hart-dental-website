@@ -1,7 +1,6 @@
 import type { ImageMetadata } from "astro";
 
 import jasPahal from "../assets/team/jas-pahal.webp";
-import garySidhu from "../assets/team/gary-sidhu.webp";
 import edwardWalker from "../assets/team/edward-walker.webp";
 import kerry from "../assets/team/kerry.webp";
 import mandy from "../assets/team/mandy.webp";
@@ -34,17 +33,7 @@ export const dentists: TeamMember[] = [
     alt: "Portrait of Dr. Jas Pahal",
     bio: [
       "Dr. Pahal was born and raised in Prince George. He studied Biology at the University of British Columbia, completed a Master of Science in Community Health at the University of Northern British Columbia, and graduated from dental school at the University of Manitoba in 2010.",
-      "After practising in Winnipeg and Australia, he returned to Prince George with his family in 2013. His published Hart Dental biography emphasizes patient-focused care, long-term relationships and a lasting commitment to the community."
-    ]
-  },
-  {
-    name: "Dr. Gary Sidhu",
-    role: "Dentist",
-    image: garySidhu,
-    alt: "Portrait of Dr. Gary Sidhu",
-    bio: [
-      "Dr. Sidhu was born and raised in Vancouver and graduated from the UCLA School of Dentistry in 2013.",
-      "His published Hart Dental biography describes a broad general-dentistry practice that includes oral health care, implants, wisdom teeth, orthodontics and emergency care. Outside the office, he enjoys hiking, biking, comedy, food and time with friends and family."
+      "After practising in Winnipeg and Australia, he returned to Prince George with his family in 2013. He values long-term relationships with patients and is committed to serving his community."
     ]
   },
   {

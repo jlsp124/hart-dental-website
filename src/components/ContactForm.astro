@@ -42,7 +42,6 @@ import { sitePath } from "../data/site";
     <label class="form-wide">
       <span>Scheduling note <small>(optional)</small></span>
       <textarea name="message" rows="4" maxlength="700" placeholder="For example: weekday mornings work best."></textarea>
-      <small>Please do not send medical details or urgent information through this form.</small>
     </label>
   </div>
   <label class="honeypot" aria-hidden="true" tabindex="-1">
@@ -50,10 +49,6 @@ import { sitePath } from "../data/site";
     <input name="website" type="text" autocomplete="off" tabindex="-1" />
   </label>
   {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light"></div>}
-  <label class="form-consent">
-    <input name="consent" type="checkbox" value="yes" required />
-    <span>I consent to Hart Dental using these details to respond to my request. This is not a confirmed appointment.</span>
-  </label>
   <div class="form-submit-row">
     <button class="button" type="submit">Send request <span aria-hidden="true">→</span></button>
     <p class="form-status" role="status" aria-live="polite" data-form-status></p>

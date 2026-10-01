@@ -7,7 +7,7 @@ import { dentists, team } from "../data/team";
 import { absoluteUrl } from "../data/site";
 
 const title = "Our Team | Hart Dental";
-const description = "Meet the dentists, hygienists, certified dental assistants and patient coordinators currently presented by Hart Dental in Prince George.";
+const description = "Meet Dr. Jas Pahal, Dr. Edward Walker and the hygienists, dental assistants and patient coordinators at Hart Dental in Prince George.";
 const anchorFor = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
 const roleGroups = [
   { title: "Hygienists", people: team.filter((person) => person.role === "Hygienist") },
@@ -31,10 +31,10 @@ const schema = dentists.map((person) => ({
     <div class="page-hero-grid shell">
       <div data-reveal>
         <p class="eyebrow">Our team</p>
-        <h1>Good care is a team effort.</h1>
+        <h1>Meet your dental team.</h1>
       </div>
       <div class="page-hero-copy" data-reveal>
-        <p>Dentists, hygienists, assistants and patient coordinators each shape the experience. Meet the people currently presented by Hart Dental.</p>
+        <p>Get to know the dentists, hygienists, assistants and patient coordinators who look after your visit.</p>
       </div>
     </div>
   </section>
@@ -47,7 +47,7 @@ const schema = dentists.map((person) => ({
           <div data-reveal>
             <h2>{person.name}</h2>
             <p class="role">{person.role}</p>
-            {person.bio ? person.bio.map((paragraph) => <p>{paragraph}</p>) : <p>Hart Dental’s current website identifies {person.name} as a dentist but does not publish a biography. This preview intentionally does not invent one.</p>}
+            {person.bio?.map((paragraph) => <p>{paragraph}</p>)}
           </div>
         </article>
       ))}
@@ -58,7 +58,7 @@ const schema = dentists.map((person) => ({
     <div class="shell">
       <header class="section-intro" data-reveal>
         <p class="eyebrow">The wider team</p>
-        <h2>Many hands, one patient experience.</h2>
+        <h2>The people behind your visit.</h2>
       </header>
       {roleGroups.map((group) => (
         <section class="team-category" aria-labelledby={`group-${anchorFor(group.title)}`}>

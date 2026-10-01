@@ -14,7 +14,6 @@ type FormFields = {
   reason: string;
   message: string;
   website: string;
-  consent: string;
   turnstileToken: string;
 };
 
@@ -87,7 +86,6 @@ async function readFields(request: Request): Promise<FormFields> {
     reason: text(values.reason, 80),
     message: text(values.message, 700),
     website: text(values.website, 200),
-    consent: text(values.consent, 10),
     turnstileToken: text(values["cf-turnstile-response"], 2048)
   };
 }
@@ -129,8 +127,8 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
 
   const allowedPreferences = new Set(["phone", "email"]);
   const allowedReasons = new Set(["New patient visit", "Routine care", "Dental concern", "Emergency appointment", "Ask the team to call me"]);
-  if (!fields.name || !fields.phone || !fields.reason || fields.consent !== "yes") {
-    return json("Please complete the required fields and consent checkbox.", 400);
+  if (!fields.name || !fields.phone || !fields.reason) {
+    return json("Please complete the required fields.", 400);
   }
   if (!phoneIsValid(fields.phone) || !emailIsValid(fields.email)) {
     return json("Please check the phone number and email address.", 400);

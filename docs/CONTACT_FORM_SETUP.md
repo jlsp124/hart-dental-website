@@ -11,7 +11,7 @@ Status: preview-safe and non-delivering. Production delivery is intentionally di
 5. Turnstile is verified server-side before any outbound request.
 6. A successful production request is sent to one Hart-authorized mailbox through Resend. Request bodies and contact details are not logged by application code.
 
-The web form requests only name, phone, optional email, contact preference, broad reason and an optional scheduling note. It explicitly asks visitors not to include medical information. An appointment request is never represented as a confirmed booking.
+The web form requests only name, phone, optional email, contact preference, broad reason and an optional scheduling note. It has no consent checkbox; the function validates these fields without a consent value. The appointment explanation appears once above the form. An appointment request is never represented as a confirmed booking.
 
 ## Production prerequisites
 

@@ -5,6 +5,7 @@
 The following were retrieved from Hart Dental’s current public website and appear specific to the clinic:
 
 - Hart Dental logo and mark source.
+- Tab, Apple and manifest icons use the original Hart Dental mark from the old site's `favicon_7.png`, including its rounded orange/grey tile pattern. The source is `src/assets/hart-dental-mark.png`; run `node scripts/generate-icons.mjs` to recreate the PNG sizes.
 - Current team group photograph.
 - Current dentist and staff portraits.
 - Office exterior photograph.

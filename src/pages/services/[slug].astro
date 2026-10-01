@@ -81,9 +81,11 @@ const schema = [
           </section>
         ))}
 
-        <aside class="info-note" data-reveal>
-          <p><strong>A note about this page:</strong> This is general information, not a diagnosis or treatment plan. Call Hart Dental at <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> for an assessment. For severe swelling, trouble breathing, uncontrolled bleeding or a serious injury, seek urgent medical help.</p>
-        </aside>
+        {service.slug === "dental-emergencies-prince-george" && (
+          <aside class="info-note" data-reveal>
+            <p>Call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> for urgent dental concerns. For severe swelling, trouble breathing, uncontrolled bleeding or a serious injury, seek urgent medical help.</p>
+          </aside>
+        )}
 
         <section class="content-section" id="questions" style="padding-top: 75px" data-reveal>
           <p class="eyebrow">Common questions</p>

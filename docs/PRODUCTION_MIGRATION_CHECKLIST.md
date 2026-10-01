@@ -1,6 +1,6 @@
 # Production migration checklist
 
-Current state: **not authorized and not performed**. The replacement remains separate from `hartdental.ca`.
+Current state: **production cutover not performed**. The replacement remains separate from `hartdental.ca`. Local refinements retain the existing domain and URL structure for the eventual hosting change.
 
 Use this only after Hart Dental has approved the design, copy, team roster, assets, privacy terms, form provider and launch window.
 

@@ -19,7 +19,7 @@ test("homepage renders without overflow or client errors", async ({ page }, test
   await page.emulateMedia({ reducedMotion: "reduce" });
   const response = await page.goto("/");
   expect(response?.status()).toBe(200);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Dentistry with heart.");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Family dental care\s*in Prince George\./);
   await expect(page.locator(".home-hero img")).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
@@ -49,12 +49,28 @@ test("responsive navigation is keyboard-operable", async ({ page }, testInfo) =>
     await expect(page.getByRole("link", { name: "Services", exact: true }).first()).toBeVisible();
     return;
   }
-  const menu = page.getByRole("button", { name: "Menu" });
+  const menu = page.locator("[data-nav-toggle]");
+  const nav = page.getByRole("navigation", { name: "Primary navigation" });
+  await expect(nav).toBeHidden();
   await menu.click();
   await expect(menu).toHaveAttribute("aria-expanded", "true");
-  await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
+  await expect(nav).toBeVisible();
+  const bounds = await nav.boundingBox();
+  // A blurred ancestor previously confined the drawer to a 79px strip.
+  expect(bounds?.height).toBeGreaterThan(page.viewportSize()!.height - 100);
+  await expect(nav.getByRole("link", { name: "Services", exact: true })).toBeFocused();
+  await expect(page.locator("main")).toHaveAttribute("inert", "");
+  await page.keyboard.press("Shift+Tab");
+  await expect(menu).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(nav.getByRole("link", { name: "Request an appointment" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(menu).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(menu).toHaveAttribute("aria-expanded", "false");
+  await expect(menu).toBeFocused();
+  await expect(nav).toBeHidden();
+  await expect(page.locator("main")).not.toHaveAttribute("inert", "");
 });
 
 test("core pages pass automated accessibility checks", async ({ page }) => {
@@ -78,7 +94,7 @@ test("appointment request is safe and non-delivering in preview", async ({ page 
   await form.locator("input[name=phone]").fill("250-555-0100");
   await form.locator("input[name=email]").fill("preview@example.com");
   await form.locator("select[name=reason]").selectOption({ label: "New patient visit" });
-  await form.locator("input[name=consent]").check();
+  await expect(form.locator("input[type=checkbox]")).toHaveCount(0);
   await form.getByRole("button", { name: /send request/i }).click();
   await expect(form.locator("[data-form-status]")).toContainText(/no message was sent/i);
   expect(appointmentRequests).toBe(0);
@@ -106,4 +122,64 @@ test("reduced motion keeps content readable", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("[data-reveal]").first()).toBeVisible();
+});
+
+test("navigation works on narrow, landscape and intermediate screens", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "Run the additional viewport matrix once.");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const viewport of [{ width: 320, height: 568 }, { width: 667, height: 375 }, { width: 1024, height: 768 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    await page.evaluate(() => window.scrollTo(0, 350));
+    const menu = page.locator("[data-nav-toggle]");
+    const nav = page.locator("[data-nav]");
+    await menu.click();
+    await expect(nav).toBeVisible();
+    const bounds = await nav.boundingBox();
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height);
+    const appointment = nav.getByRole("link", { name: "Request an appointment" });
+    await appointment.scrollIntoViewIfNeeded();
+    const buttonBounds = await appointment.boundingBox();
+    expect(buttonBounds!.y + buttonBounds!.height).toBeLessThanOrEqual(viewport.height);
+    await page.keyboard.press("Escape");
+    expect(await page.evaluate(() => window.scrollY)).toBe(350);
+    await menu.click();
+    await nav.getByRole("link", { name: "Contact", exact: true }).click();
+    await expect(page).toHaveURL(/\/contact-us\/?$/);
+    await expect(page.locator("body")).not.toHaveClass(/nav-open/);
+  }
+
+  await page.goto("/");
+  await page.locator("[data-nav-toggle]").click();
+  for (const width of [1121, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect(page.locator("body")).not.toHaveClass(/nav-open/);
+    await expect(page.locator("main")).not.toHaveAttribute("inert", "");
+    await expect(page.locator("[data-nav-toggle]")).toBeHidden();
+    const navBounds = await page.locator("[data-nav]").boundingBox();
+    const logoBounds = await page.locator(".wordmark").boundingBox();
+    expect(navBounds!.x).toBeGreaterThan(logoBounds!.x + logoBounds!.width);
+    expect(navBounds!.x + navBounds!.width).toBeLessThanOrEqual(width);
+  }
+});
+
+test("mobile navigation remains usable without JavaScript", async ({ browser }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "Run the no-JavaScript fallback once.");
+  const page = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  await page.goto("http://127.0.0.1:4322/");
+  const nav = page.getByRole("navigation", { name: "Primary navigation" });
+  await expect(nav).toBeVisible();
+  await nav.getByRole("link", { name: "Services", exact: true }).click();
+  await expect(page).toHaveURL(/\/services\/?$/);
+  await page.close();
+});
+
+test("appointment endpoint accepts the simplified form and rejects missing fields", async ({ request }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "Run the endpoint validation once.");
+  const fields = { name: "Preview Test", phone: "250-555-0100", email: "preview@example.com", contactPreference: "phone", reason: "New patient visit" };
+  const valid = await request.post("/api/appointment", { form: fields });
+  expect(valid.status()).toBe(200);
+  expect(await valid.json()).toMatchObject({ ok: true, delivered: false, mode: "preview" });
+  const invalid = await request.post("/api/appointment", { form: { ...fields, name: "" } });
+  expect(invalid.status()).toBe(400);
 });

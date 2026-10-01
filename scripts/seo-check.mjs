@@ -41,6 +41,7 @@ for (const route of routes) {
   const file = routeFile(route);
   if (!(await exists(file))) { fail(`${route}: missing built HTML`); continue; }
   const html = await readFile(file, "utf8");
+  if (/Gary\s*(?:\+|&nbsp;)?\s*Sidhu|gary-sidhu/i.test(html)) fail(`${route}: departed dentist remains in page content or structured data`);
   const title = tagText(html, "title");
   const descriptionTag = html.match(/<meta\s+[^>]*name=["']description["'][^>]*>/i)?.[0] || "";
   const description = attr(descriptionTag, "content");
@@ -94,10 +95,23 @@ for (const route of routes) {
 
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+if (new Set(sitemapUrls).size !== sitemapUrls.length) fail("sitemap: duplicate URLs");
 if (sitemapUrls.length !== routes.length) fail(`sitemap: expected ${routes.length} URLs, found ${sitemapUrls.length}`);
 for (const route of routes) {
   const expected = route === "/" ? `${origin}/` : `${origin}${route}`;
   if (!sitemapUrls.includes(expected)) fail(`sitemap: missing ${expected}`);
+}
+
+const manifest = JSON.parse(await readFile(path.join(dist, "site.webmanifest"), "utf8"));
+for (const icon of manifest.icons || []) {
+  const iconPath = previewBase && icon.src.startsWith(`${previewBase}/`) ? icon.src.slice(previewBase.length) : icon.src;
+  if (!(await exists(path.join(dist, iconPath.replace(/^\//, ""))))) fail(`manifest: missing icon ${icon.src}`);
+}
+const homepage = await readFile(routeFile("/"), "utf8");
+if (tagText(homepage, "title") !== "Prince George Dentist | Hart Dental") fail("homepage: legacy search title changed");
+if (!homepage.includes(`${previewBase}/favicon.png`)) fail("homepage: official favicon is missing");
+for (const legacy of ["/node/1", "/dental-videos"]) {
+  if (sitemapUrls.includes(`${origin}${legacy}`)) fail(`sitemap: includes redirecting route ${legacy}`);
 }
 
 const robots = await readFile(path.join(dist, "robots.txt"), "utf8");

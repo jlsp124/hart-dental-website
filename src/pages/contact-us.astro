@@ -1,10 +1,8 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ContactForm from "../components/ContactForm.astro";
 import { HOURS, SITE, addressInline, absoluteUrl } from "../data/site";
-import exterior from "../assets/office-exterior.jpg";
 
 const title = "Contact Us | Hart Dental";
 const description = "Contact Hart Dental at 3644 Austin Road W in Prince George, BC. Call 250-962-5351, get directions or request an appointment.";
@@ -23,7 +21,7 @@ const schema = {
     <div class="page-hero-grid shell">
       <div data-reveal>
         <p class="eyebrow">Contact Hart Dental</p>
-        <h1>Let’s find the right next step.</h1>
+        <h1>Contact Hart Dental.</h1>
       </div>
       <div class="page-hero-copy" data-reveal>
         <p>Call for urgent dental concerns. For routine requests, send the short form below and the Hart Dental team will follow up to confirm availability.</p>
@@ -45,25 +43,16 @@ const schema = {
         <dl class="hours-list">
           {HOURS.map((item) => <><dt>{item.shortDay}</dt><dd>{item.display}</dd></>)}
         </dl>
-        <p style="margin-top: 25px; color: var(--muted); font-size: .75rem">Hours shown match Hart Dental’s current website as of September 1, 2026. Please call to confirm holiday or temporary changes.</p>
       </aside>
 
       <div class="appointment-panel" data-reveal>
         <p class="eyebrow">Appointment request</p>
         <h2>Tell us how to reach you.</h2>
-        <p>This sends a request, not a confirmed appointment. Do not include medical details. If your concern is urgent, call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>.</p>
+        <p>The team will contact you to confirm an appointment. For urgent concerns, call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>.</p>
         <ContactForm />
       </div>
     </div>
   </section>
 
-  <section class="location-media">
-    <Image src={exterior} alt="Hart Dental exterior at 3644 Austin Road W in Prince George" widths={[768, 1280, 1920]} sizes="100vw" loading="lazy" quality={84} />
-    <div class="location-card">
-      <h3>Find Hart Dental</h3>
-      <p>{addressInline()}</p>
-      <a class="text-link" href={SITE.directionsUrl}>Open directions <span aria-hidden="true">↗</span></a>
-    </div>
-  </section>
 </BaseLayout>
 

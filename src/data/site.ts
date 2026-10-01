@@ -19,7 +19,7 @@ export const SITE = {
   directionsUrl:
     "https://www.google.com/maps/dir/?api=1&destination=Hart+Dental%2C+3644+Austin+Road+W%2C+Prince+George%2C+BC+V2K+2H6",
   googleReviewUrl:
-    "https://www.google.ca/maps/place/Hart+Dental+-+Dr.+Jas+Pahal+%26+Dr.+Gary+Sidhu/@53.989522,-122.7871321,15z/data=!4m7!3m6!1s0x0:0xce9c2c978fd561e8!8m2!3d53.9896046!4d-122.7879965!9m1!1b1",
+    "https://www.google.com/maps?cid=14887823497644827112",
   facebookUrl: "https://www.facebook.com/HartDental/",
   instagramUrl: "https://www.instagram.com/hart_dental/"
 } as const;
@@ -36,8 +36,8 @@ export const HOURS = [
 
 export const PRIMARY_NAV = [
   { href: "/services", label: "Services" },
-  { href: "/become-patient", label: "New Patients" },
-  { href: "/about-us", label: "About" },
+  { href: "/become-patient", label: "Become a Patient" },
+  { href: "/about-us", label: "About Us" },
   { href: "/our-team", label: "Our Team" },
   { href: "/hart-dental-reviews", label: "Reviews" },
   { href: "/contact-us", label: "Contact" }
